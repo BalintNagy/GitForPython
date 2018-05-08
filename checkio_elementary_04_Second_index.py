@@ -47,3 +47,5 @@ print(second_index("hi mayor", " "))
 print(second_index("eee", "e"))
 
 # Ez működik. :)
+
+# Szép, a while hasyn'lata külön tetszik! .find() - csekkold le, és próbáld meg ezzel is megoldani

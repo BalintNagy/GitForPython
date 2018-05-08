@@ -52,6 +52,11 @@ def checkio(str_number: str, radix: int) -> int:
     #      (https://owlcation.com/stem/Convert-Hex-to-Decimal) De még mindig
     #      nem tiszta, hogy ez hogy működik, és mire jó. Meg hogy pl. mi a "Z".
 
+    # Ez a számrendszerekhez kapcsolódik, sztem érdemes tudni
+    #  itt egy 10m intro videó ami segíthet a megértésben, de beszéljünk is róla majd..
+    # https://www.youtube.com/watch?v=1GSjbWt0c9M
+
+
 print(checkio("AF", 16))
 print(checkio("101", 2))
 print(checkio("101", 5))

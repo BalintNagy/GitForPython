@@ -63,3 +63,5 @@ print(between_markers('No [b]hi', '[b]', '[/b]'))
 print(between_markers('No hi', '[b]', '[/b]'))
 print(between_markers('No <hi>', '>', '<'))
 print(between_markers("No <hi> one",">","<"))
+
+# .find() .index() :)

@@ -29,7 +29,7 @@
 """
 def checkio(words: str) -> bool:
     counter = 0
-    wordlist = words.split()
+    wordlist = words.split() #szép
     for i in wordlist:
         if i.isnumeric():
             counter = 0

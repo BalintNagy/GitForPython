@@ -14,7 +14,10 @@ def say_hi(name, age):
     """
         Hi!
     """
-    # your code here
+    # 3.5 ota a literal string interpolation a javasolt, rengeteg dologra jó, ebben az esetben pl nem kellene castolgatni külön az integert
+    # >>> value = 4 * 20
+    # >>> f'The value is {value}.'
+    # 'The value is 80.'
     return "Hi. My name is " + name + " and I'm " + str(age) + " years old"
 
 szoveg = say_hi("Frank", 68)
