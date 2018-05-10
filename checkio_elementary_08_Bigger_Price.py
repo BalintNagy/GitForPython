@@ -39,6 +39,8 @@ def bigger_price(limit, data):
     data_sorted_desc = sorted(data, key=operator.itemgetter("price"), reverse = True)
     # ---> "price" szerint sortoljuk a listát alkotó dictionary-ket, csökkenő
     #      sorrendben.
+    # a key kicsit advanced ezen a ponton :D el tudd mondani hogy múködik?
+    # másolt kódot amúgy nem gáz használni, ha tudod is, hogy hogyan működik, mert a forrás mind1, de ha te teszed bele, onnan tól te vagy felelős az implementációért és az esetleges mellékhatásaiért
     return data_sorted_desc[0:limit]
 
 print(bigger_price(2, [

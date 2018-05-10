@@ -35,3 +35,5 @@ print(checkio(123405))
 print(checkio(999))
 print(checkio(1000))
 print(checkio(1111))
+
+# szép, könnyen olvasható

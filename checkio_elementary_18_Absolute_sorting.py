@@ -34,7 +34,7 @@
 def checkio(numbers_array: tuple) -> list:
     print(numbers_array)
     numbers_dict = {}
-    negorpos = 0
+    # negorpos = 0 (ezt kikommenteltem, mégis  múködik a kód, miért?)
     list_to_return = []
     for i in numbers_array:
         if i < 0:
@@ -52,6 +52,11 @@ def checkio(numbers_array: tuple) -> list:
     # Szépséghiba: alapvetően tuple-t kellett volna returnölni, én viszont
     #              listet returnölök.
 
+    # "convert" vagy még inkább "cast" címszavak ilyenkor hasznosak kereséshez, az nem para ha belül más adatruktóraként
+    # kezeled, de az output-ra gondolj úgy mint egy interfészre amiben megegyezel egy másik programozóval,
+    # és ő úgy dolgozik, hogy azt az  adattípust várja majd ahhoz amin ő dolgozik
+
+    # első függvényt szintén érdemes lecsekkolni: https://docs.python.org/3/library/functions.html
 print(checkio((-20, -5, 10, 15)))
 print(checkio((1, 2, 3, 0)))
 print(checkio((-1, -2, -3, 0)))
