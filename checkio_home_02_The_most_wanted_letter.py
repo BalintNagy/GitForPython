@@ -34,15 +34,17 @@
      A text contains only ASCII symbols.
      0 < len(text) ≤ 10^5
 """
-
+    # Azért kell a sorted és a reverse, hogy holtverseny esetén az abc-ben korábbi betűt értékelje ki később.
+    # VAGY:
 def checkio(text: str) -> str:
     import string
     most_frequent_letter = ''
     count_mf = 0
-    for i in sorted(set(list(text.lower())), reverse = True):
-    # Azért kell a sorted és a reverse, hogy holtverseny esetén az abc-ben korábbi betűt értékelje ki később.
+    for i in sorted(set(list(text.lower()))):
+    # for i in sorted(set(list(text.lower())), reverse = True):
         if i in string.ascii_letters:
-            if text.lower().count(i) >= count_mf:
+            if text.lower().count(i) > count_mf:
+            # if text.lower().count(i) >= count_mf:
                 count_mf = text.lower().count(i)
                 most_frequent_letter = i
     return most_frequent_letter
