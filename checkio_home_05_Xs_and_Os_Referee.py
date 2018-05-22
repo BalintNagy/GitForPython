@@ -80,7 +80,7 @@ def checkio(game_result: List[str]) -> str:
     
     #4. Eredményhirdetés
     for i in all:
-       for j in ['X', 'O']
+       for j in ['X', 'O']:
            if i.count(j) == len(game_result): # Ez lehetne akár len(i) is, talán azzal könnyebben olvasható a kód...
                winner = j
                break
