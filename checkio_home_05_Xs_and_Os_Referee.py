@@ -54,12 +54,21 @@ def checkio(game_result: List[str]) -> str:
     csak X, vagy csak O van.
     """
 
+    # az tök fasza gyakorlat,  ha úgy oldasz meg valamit hogy az kvázi ilyen nagyobb skálán is felhasználható
+    # viszont akkor 4-el lehet nyerni, vagy 3-al? most fixen 3-ra vigygálsz, viszont akkor bizonyos további átlókat is meg kell nézni
+    # a győzelmi feltételeket valahogy úgy lehetne megközelíteni, hogy egymáshoz viszonyítva határozzuk meg
+    # lista[sorindex][oszlopindex] < ha indexálható elemekből áll a lista akkor így lehet kb egy 2D-s egy táblaként indexelni az elemeket, és egymáshoz képest relatív meghatározni, hogy mit kell vizsgálni
+    # ha viszont így kezdenénk el, akkor arra is kell gondolni, hogy hogy kerülheted ki az IndexErrort
+    # ezzel érdemes lenne kiegészíteni, a sor/oszlop vizsgálat az adott
+
     winner = 'D'
     all = []
     
     #1. sorok betöltése
     for i in game_result:
         all.append(i)
+
+    # idáig annyi történik hogy all = game_result, mert eleve egy listát várunk a sorok stringjeival
     
     #2. oszlopok betöltése
     for i in range(0, len(game_result)):
@@ -69,7 +78,7 @@ def checkio(game_result: List[str]) -> str:
         all.append(column)
                 
     #3. Balfelső-Jobbalsó átló (ULLR) betöltése
-    #   Jobbfelső-balalsó átló (URLL) betöltése
+    # Jobbfelső-balalsó átló (URLL) betöltése
     ULLR = ''
     URLL = ''
     for i in range(0, len(game_result)):
@@ -77,7 +86,7 @@ def checkio(game_result: List[str]) -> str:
         URLL += game_result[i][len(game_result)-i-1]
     all.append(ULLR)
     all.append(URLL)
-    
+
     #4. Eredményhirdetés
     for i in all:
        for j in ['X', 'O']:
@@ -87,12 +96,22 @@ def checkio(game_result: List[str]) -> str:
     return winner
 
 
-print(checkio(["X.O",
-               "XX.",
-               "XOO"]))
+print(checkio(["X.OX",
+               "XX.X",
+               "XOOX", "OOOO"]))
 print(checkio(["OO.",
                "XOX",
                "XOX"]))
 print(checkio(["OOX",
-               "XXO",
-               "OXX"]))
+               "XOO",
+               "OXO"]))
+
+# kiri nagyon
+# szerintem ehhez fasza lenne írni egy game loopot, és akkor van egy működő python játékod, pár feladattal kell kiagészíteni:
+# // kérd be a táblaméretet egyszer
+# // írj egy loopot ami
+#     //minden körben kirajzolja az aktuális táblát
+#     //vár két inputot a felhasználótól amik a sor és oszlopindexet adják
+#     // páros körben O-val páratlanban X-el írd felül az adott elemet
+#     // hívd meg rajta a megírt checkio() funkcíót amit kiegészítesz annyival, hogy ha nincs elég elem egyik 1-1 kiértékelésnél akkor nem ad vissza semmit
+#     // ha van már eredmény, akkor eredményhirdetés
