@@ -46,9 +46,8 @@
 from typing import List
 
 def checkio(game_result: List[str]) -> str:
-    winner = 'D'
     """
-    Nagyon robusztus megoldást akarok csinálni (ami bármilyen n×n-es pályán
+    Nagyon robusztus megoldást akarok csinálni, ami bármilyen n×n-es pályán
     működik.
     Ehhez először beletöltöm az összes sort, oszlopot és átlót egy listába,
     majd végigloopolok a listán, és megnézem, van-e olyan eleme, amiben vagy
@@ -81,8 +80,8 @@ def checkio(game_result: List[str]) -> str:
     
     #4. Eredményhirdetés
     for i in all:
-       for j in ('X', 'O'):
-           if i.count(j) == 3:
+       for j in ['X', 'O']
+           if i.count(j) == len(game_result): # Ez lehetne akár len(i) is, talán azzal könnyebben olvasható a kód...
                winner = j
                break
     return winner
