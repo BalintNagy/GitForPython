@@ -35,7 +35,25 @@ def long_repeat(line):
         return 0
     return len_longest
 
+# Ez kapcsolódik a Truthy-Falsy témához ami egyszer feljött azzal kapcsolatban, hogy runtime bizonyos értékek felvehetnek "True" v "False" valuet kiértékeléskor.
+# Ebben az esetben azt kell látni, hogy az if után, egy kifejezés következik, ami mind1, hogy miből áll vagy milyen hosszú, egy darab True v False booleanként fog visszatérni
+# De használhatunk változókat is önmagukban való kiértékelésre (ez a truthy-falsy), pl "if list:"
+# Shellben a (bool()) függvénnyel tudod megnézni, hogy egy kifejezésként való kiértékeléskor mivé konvertálódik egy változó.
 
+# >>> line = []
+# >>> bool(line)
+# False
+# >>> bool(len(line))
+# False
+# >>> line = [1, 2]
+# >>> bool(len(line))
+# True
+# >>> bool(line)
+# True
+# >>>
+
+# A mostani kódodba nem kell a bool() fv., mert a python a if után kiértékelendő dolgokra számít,
+# de egyéb iránt érdemes megjegyezni és ha van lehetőség rá akkor használni ugyanúgy mint egy str() vagy egy int() konverziót csak pl flaggekhez
 
 print(long_repeat('sdsffffse'))
 print(long_repeat('ddvvrwwwrggg'))
