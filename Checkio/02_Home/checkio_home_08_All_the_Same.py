@@ -27,7 +27,11 @@ def all_the_same(elements: List[Any]) -> bool:
         return True
     return counter == len(elements)
 
+# Ez amúgy tök oké, úgy olvashatóbb lehet, vagy talán kicsit kevésbé nyakatekert, ha explicit vizsgálod az algoritmus esetén, hogy üres-e a lista, és kidobod, ha igen
+# A "pythonic way" elvileg erre assert, tzr/catch, ezekkel még csak én is most barátkozom, de ha egy feladat kér valami returnt akkor tök jó egy sima if is az elejére
+
+
 print(all_the_same([1, 1, 1]))
-print(all_the_same([1, 2, 1]))
+print(all_the_same([1, 2, 1])) # Ennél a testcasenél eszembe jut, hogy mi van, ha 200K szám van, és csak a második különbözik a többitől. Akkor is végig akarom vizsgálni az egészet?
 print(all_the_same(['a', 'a', 'a']))
 print(all_the_same([]))

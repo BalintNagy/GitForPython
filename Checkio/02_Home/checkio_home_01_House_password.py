@@ -34,13 +34,22 @@
 
 def checkio(data: str) -> bool:
     import string
+    # importok inább a file tetejérere menjenek függvényeken kívül, ha spórolni akarsz akkor konkrét methodokat importolj inkább
+    #  ez inkább áttekinthetőség miatt fontos, két függvénnyel lejjebb nem fogja esetleg érteni valaki hogy mi honnan jön, te írtad meg vagy külső könyvtár
 
     len_is_10 = 0
     contains_ascii_lower = 0
     contains_ascii_upper = 0
     contains_number = 0
     contains_invalid_symbol = 0
-    
+
+    # A flaggelés fasza, két értéknél jobb lenne True/False használata. Ha ternaryval írod meg az if/else-eket, akkor megspórolod az initial False value-k assignolását, pl az első sor így nézne ki:
+    # contains_ascii_lower = True if i in string.ascii_lowercase else False
+    # ez a sor mindenképp lefut, és kap valamilyen értéket
+    # a returnben pedig ezeket a változókat lehetne szépen Truthzként úgy írni, hogy csak a változókat magukat adod meg
+    # return contains_ascii_lower and contains_ascii_upper and contains_number and  contains_invalid_symbol <- ez csak akkor lesz True, ha mindenyik változó true
+    # ref: igazságtábla -> https://hu.wikipedia.org/wiki/Logikai_kapu
+
     if len(data) >= 10:
         len_is_10 = 1
     for i in data:
@@ -61,3 +70,5 @@ print(checkio('asasasasasasasaas'))
 print(checkio('QWERTYqwerty'))
 print(checkio('123456123456'))
 print(checkio('QwErTy911poqqqq'))
+
+

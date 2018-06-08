@@ -57,11 +57,23 @@ def safe_pawns(pawns: set) -> int:
             és csak megérzésből írtam át range(0, 8)-ra. Beszéljünk róla, mert
             úgy tűnik, még mindig nem értem az indexálás logikáját...
             """
+            # 8 element van list[start:end] estetén a start inkluzív, az end exkluzív
+            # [0:8] azért 8 element, mert a 0. az első, sztem ebbe kavarodhattál bele
+            # az szerintem elég intuitív, hogy ha a start a 0 akkor amit az end helyére írsz, annyi elem lesz, csak eggyel elcsúsztatva indexelsz
+            # ezt magyaráztad katinak a for range és for element különbségeként szóval sztem csak a lista zavart össze, de ilyenkor ha amúgy is
+            # van valami driver kódod amit printelgetsz, akkor nézd meg pythontutorban ha a notepadban nincs valami plugin a léptetős futtatásra
+            # esetleg magában a scripbe beírhatod, hogy printeljen ki minden körnél valamilyen eredményt
+
             safe_pos_1 = columns[columns.index(i[0]) - 1] + str(int(i[1]) - 1)
         else:
             safe_pos_1 = 'xx' # Ilyen mező nem létezik, ezért a
                               # safe_pos_1 in pawns kifejezés értéke
                               # mindig hamis lesz
+
+            # Ez egy kreatív workaround a hibák megfogására, de vissza kellett olvassam hozzá az előzőeket és megérteni,
+            # meg átgondolni, hogy miért csinálhattad, míg ha az if előtt csinálsz egy assertet vagy egy try/catchet
+            # akkor egyértelmű, hogy mire kerested/kezelted a hibát VAGY defaultból adhatsz false-t valami flag változónak ami egyértelműbb
+            #  A flaggelésről majd beszéljünk
         
         # Melyik cella van tőle egy sorral hátrébb, egy oszloppal JOBBRA?
         if columns.index(i[0]) + 1 in range(0, 8) and int(i[1]) - 1 in rows:
@@ -81,6 +93,7 @@ def safe_pawns(pawns: set) -> int:
         if safe_pos_1 in pawns or safe_pos_2 in pawns:
             num_safe_pawns += 1 # Ez num_safe_pawns++ is lehetne,
                                 # de azt az IDLE nem érti...
+            # Én is azt hittem, de a python nem támogatja a ++ incrementációt, szóval így a legjobb ahogy írtad
                     
     return num_safe_pawns
 
