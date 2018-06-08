@@ -47,6 +47,10 @@ def popular_words(text, words):
                           # Most azt tapasztaltam, hogy ha több delimiter van
                           # egymás mellett, akkor azt egynek veszi, tehát emiatt
                           # nem keletkezik üres "mező".
+
+    # Igen, ezeket a doksiban érdemes ilyenkor elolvasni, ilyenkor egy másik algoritmussal splittel
+    # https://docs.python.org/3/library/stdtypes.html#str.split
+
     for i in words:
         dict[i] = 0
         k = 0

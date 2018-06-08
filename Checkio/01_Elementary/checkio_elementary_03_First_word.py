@@ -28,7 +28,9 @@ def first_word(text: str) -> str:
     import string
 
     szoelemek = string.ascii_letters + "'"
-    i = 0
+    i = 0 #az i-ket, amiket a for ciklus fejlécében vezetsz be, csak a cikluson belül élnek. ezt itt sosem használod, és nem befolyásolja azt az i-t semmilyen módon amit a for első sorában használsz,
+    # azok 0-ról indulnak egyébként is, ha explicit nem írsz más kező indexet pl range(1,10)-el
+    # ez a témakör a Scope
     start = 0
     end = 0
     
@@ -46,3 +48,5 @@ def first_word(text: str) -> str:
         end = len(text) #Ez azért kell, mert ha az első szó végén vége a stringnek, a második for-ciklusban az if sosem lesz igaz.
         
     return text[start:end]
+
+# Szép, körülíró logika, a gyakorlás kedvéért érdemes lenne megpróbálni átírni .split-tel

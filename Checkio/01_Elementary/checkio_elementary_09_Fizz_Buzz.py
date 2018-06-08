@@ -39,6 +39,10 @@ def checkio(number):
         result = str(number)
     return result
 
+#     kiri. amúgy minden sorban fontos mind2 feltételre tesztelni and-el? (spoiler: nem - de, szerinted miért?)
+#  visszacsatolva a kódhosszúság/performancia témára, 10,000 sornál ez 20.000 fölösleges vizsgálat e miatt lassulhat a kód, de ez nyilván nem a karakterek száma miatt van így, viszont erre lehet ilyenkor gondolni kis algoritmusoknál is
+# -> hogy nagyobb datasetnél mi lesz a viselkedés
+
 print(checkio(15))
 print(checkio(6))
 print(checkio(5))

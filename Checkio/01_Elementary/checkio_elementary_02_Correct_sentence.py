@@ -15,7 +15,11 @@ def correct_sentence(text: str) -> str:
         returns a corrected sentence which starts with a capital letter
         and ends with a dot.
     """
-    # your code here
+    # ha nem írsz semmit az else ágra, az olyan mintha azt írnád:
+    #else:
+        # continue
+    # Az ilyen über egyszerű 1-2 szavas if/else-eket a legszebb megírni egy un. 'ternary operatorral'
+
     text = text[0].upper() + text[1:]
     if text[-1] != ".":
         text += "."
