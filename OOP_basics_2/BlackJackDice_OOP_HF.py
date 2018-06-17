@@ -148,11 +148,14 @@ def BlackJackDice(players, max_points):
                         i.bust()
                         
             number_of_stopped_players = 0
+            number_of_busted_players = 0
             for i in players:
                 if i.stopped:
                     number_of_stopped_players += 1
+                if i.turn_total > 21:
+                    number_of_busted_players += 1
             
-            turn_is_over = number_of_stopped_players >= len(players) - 1 or we_have_a_winner
+            turn_is_over = number_of_stopped_players == len(players) or we_have_a_winner or number_of_busted_players == len(players) - 1 
             if turn_is_over and not we_have_a_winner:
                 winner = ''
                 max_turn_total = 0
@@ -187,15 +190,15 @@ ________________________________________________________________________________
 
                            LET'S PLAY BLACKJACK DICE!
 
-                ________             __________
-              |\ *    *  \          /*        /|
-              | \ *    *  \        /    *    / |
-              |* \_*____*__\      /________*/  |
-              |  |         |     |         |   |
-              |  |  *    * |     |  *      | * |
-              \ *|         |     |         |  /
-               \ |  *    * |     |       * | /
-                \|_________|     |_________|/
+                         ________             __________
+                       |\ *    *  \          /*        /|
+                       | \ *    *  \        /    *    / |
+                       |* \_*____*__\      /________*/  |
+                       |  |         |     |         |   |
+                       |  |  *    * |     |  *      | * |
+                       \ *|         |     |         |  /
+                        \ |  *    * |     |       * | /
+                         \|_________|     |_________|/
 
 ________________________________________________________________________________
 """
@@ -223,9 +226,10 @@ BLACKJACK DICE GAMEPLAY::
  If no player scores 21 then the player closest to 21 gets 1 point. If more
  than one player have the same score, then no point is given to any player.
  The game is played for multiple rounds and the first player to reach to a
- predetermined score (for ex 10 or 20 points) wins the game.
+ predetermined score (for ex 10 or 20 points) wins the game.\n
 """)
-print('\n')
+
+print('GAME SETTINGS\n')
 
 players = []
 
