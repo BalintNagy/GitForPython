@@ -89,103 +89,10 @@ class Player(object):
     def reached_21(self):
         print(self.name + ' reached 21 in this round and gets 2 points!\n')
         self.points += 2
-        self.stop()
-        
-    
-def BlackJackDice(players, max_points):            
-    
-    players_points = {}
-    
-    somebody_won = False
-    
-    which_round = 0
-    
-    while not somebody_won: #@@ 1. while ciklus: addig mennek a játék-körök, amíg valamelyik játékos el nem éri a megadott limit-pontszámot (pl. 10 pont)
-        which_round += 1
-        turn_is_over = False
-        for i in players:
-            i.new_round()
-        print('\n________________________________________________________________________________\n')
-        print('Round ' + str(which_round))
-        print('________________________________________________________________________________\n')
-        
-        while not turn_is_over: #@@ 2. while ciklus: addig megy egy kör, amíg valaki el nem éri/meg nem haladja a 21-et, vagy amíg mindenki meg nem áll
-            we_have_a_winner = False
-            for i in players:
-                if not i.stopped:
-                    if i.turn_total >= 16:
-                        print(i.name + ', your turn total is now 16 or more.')
-                        print('If you want to continue rolling with two dice type "2".')
-                        print('If you want to stop rolling type "s".')
-                        possible_answers = ['s', '2']
-                        possible_answers_str = '"s" or "2"'
-                        if not i.one_die_only:
-                            print('If you want to continue rolling with one die only type "1".')
-                            possible_answers.append('1')
-                            possible_answers_str = '"s", "1" or "2"'
-                        answer = ""
-                        while answer not in possible_answers:
-                            print('Type your answer (' + possible_answers_str + ') then press Enter!')
-                            answer = input()
-                        if answer == 's':
-                            i.stop()
-                        elif answer == '1':
-                            i.one_die()
-                    if not i.stopped: 
-                        print(i.name + ', press Enter to roll!')
-                        EnterPressed = input()
-                        if not i.one_die_only:
-                            i.roll_with_two_dice()
-                        else:
-                            i.roll_with_one_die()
-                    print('Turn total of ' + i.name + ': ' + str(i.turn_total) + '\n')
-                    
-                    if i.turn_total == 21:
-                        i.reached_21()
-                        we_have_a_winner = True # @@Meg kell majd nézni, hogy ha egy körön belül több játékos is eléri a 21-et, akkor mindketten megkapják-e a 2 pontot!!!
-                    
-                    if i.turn_total > 21:
-                        i.bust()
-                        
-            number_of_stopped_players = 0
-            number_of_busted_players = 0
-            for i in players:
-                if i.stopped:
-                    number_of_stopped_players += 1
-                if i.turn_total > 21:
-                    number_of_busted_players += 1
-            
-            turn_is_over = number_of_stopped_players == len(players) or we_have_a_winner or number_of_busted_players == len(players) - 1 
-            if turn_is_over and not we_have_a_winner:
-                winner = ''
-                max_turn_total = 0
-                tie = False
-                for player in players:
-                    if player.turn_total < 21 and player.turn_total > max_turn_total:
-                        max_turn_total = player.turn_total
-                        winner = player
-                    elif player.turn_total == max_turn_total: #ha holtverseny van
-                        tie = True
-                        break
-                if not tie:
-                    winner.points += 1
-                    print(winner.name + ' got closest to 21 thus gets 1 points!')
-                    
-                
-        
-        print('\nEND OF ROUND ' + str(which_round) + '\n')    
-        
-        
-        for player in players:
-            players_points[player.name] = player.points
-            if player.points >= max_points:
-                somebody_won = True
-        
-        print('Scores at the end of round ' + str(which_round) + ':')
-        for i in players_points.keys():
-            print('    ' + i + ': ' +  str(players_points[i]))
-        
-print("""
+        self.stop()        
+
+def intro():
+    print("""
 ________________________________________________________________________________
 
                            LET'S PLAY BLACKJACK DICE!
@@ -201,10 +108,10 @@ ________________________________________________________________________________
                          \|_________|     |_________|/
 
 ________________________________________________________________________________
-"""
-)
-print('\n')
-print("""
+    """
+    )
+    print('\n')
+    print("""
 RULES OF THE GAME:
 (source: http://www.netexl.com/howtoplay/blackjack-dice/)
 
@@ -227,42 +134,151 @@ BLACKJACK DICE GAMEPLAY::
  than one player have the same score, then no point is given to any player.
  The game is played for multiple rounds and the first player to reach to a
  predetermined score (for ex 10 or 20 points) wins the game.\n
-""")
+    """)
 
-print('GAME SETTINGS\n')
+    print('GAME SETTINGS\n')
 
-players = []
+def set_players():
+    players = []
 
-num_of_players = 0
-print('Type the number of players (at least 2, up to 6) then press Enter!')
-while num_of_players not in range(2, 7, 1):
-    try:
-        num_of_players = int(input())
-        if num_of_players not in range(2, 7, 1):
+    num_of_players = 0
+    print('Type the number of players (at least 2, up to 6) then press Enter!')
+    while num_of_players not in range(2, 7, 1):
+        try:
+            num_of_players = int(input())
+            if num_of_players not in range(2, 7, 1):
+                print('Number of players must be an integer between 2 and 6!')
+        except ValueError:
             print('Number of players must be an integer between 2 and 6!')
-    except ValueError:
-        print('Number of players must be an integer between 2 and 6!')
 
-for i in range(0, num_of_players):
-    if i + 1 == 1:
-        th = 'st'
-    elif i + 1 == 2:
-        th = 'nd'
-    elif i + 1 == 3:
-        th = 'rd'
-    else:
-        th = 'th'
-    print('Type the name of the ' + str(i + 1) + th + ' player then press Enter!')
-    players.append(Player(input())) # @@ Itt valahogy tiltani kéne, hogy "" legyen a neve!
+    for i in range(0, num_of_players):
+        if i + 1 == 1:
+            th = 'st'
+        elif i + 1 == 2:
+            th = 'nd'
+        elif i + 1 == 3:
+            th = 'rd'
+        else:
+            th = 'th'
+        print('Type the name of the ' + str(i + 1) + th + ' player then press Enter!')
+        players.append(Player(input())) # @@ Itt valahogy tiltani kéne, hogy "" legyen a neve!
 
-max_points = 0
-print('Type the score you want to reach (at least 10, up to 30) then press Enter! Whichever player first reaches this score wins the game.')
-while max_points not in range(10, 31, 1):
-    try:
-        max_points = int(input())
-        if max_points not in range(10, 31, 1):
-            print('The predetermined score must be an integer between 10 and 30!')
-    except ValueError:
-        print('The predetermined score must be an integer between 10 and 30!')
+    return players
+    
 
-BlackJackDice(players, max_points)
+def set_max_points():
+    max_points = 0
+    print('Type the score you want to reach (at least 5, up to 30) then press Enter! Whichever player first reaches this score wins the game.')
+    while max_points not in range(5, 31, 1):
+        try:
+            max_points = int(input())
+            if max_points not in range(5, 31, 1):
+                print('The predetermined score must be an integer between 5 and 30!')
+        except ValueError:
+            print('The predetermined score must be an integer between 5 and 30!')
+    return max_points
+
+def BlackJackDice(players, max_points):            
+    
+    players_points = {}
+    somebody_won = False
+    which_round = 0
+    
+    while not somebody_won:
+        which_round += 1
+        turn_is_over = False
+        for i in players:
+            i.new_round()
+        print('\n________________________________________________________________________________\n')
+        print('Round ' + str(which_round))
+        print('________________________________________________________________________________\n')
+        
+        while not turn_is_over:
+            we_have_a_winner = False
+            for i in players:
+                if not i.stopped:
+                    if i.turn_total >= 16:
+                        print(i.name + ', your turn total is now ' + str(i.turn_total) + '.')
+                        print('If you want to stop rolling type "s".')
+                        print('If you want to continue rolling with one die only type "1".')
+                        possible_answers = ['s', '1']
+                        possible_answers_str = '"s" or "1"'
+                        if not i.one_die_only:
+                            print('If you want to continue rolling with two dice type "2".')
+                            possible_answers.append('2')
+                            possible_answers_str = '"s", "1" or "2"'
+                        answer = ''
+                        while answer not in possible_answers:
+                            print('Type your answer (' + possible_answers_str + ') then press Enter!')
+                            answer = input()
+                        if answer == 's':
+                            i.stop()
+                        elif answer == '1':
+                            i.one_die()
+                    if not i.stopped: 
+                        print(i.name + ', press Enter to roll!')
+                        EnterPressed = input()
+                        if not i.one_die_only:
+                            i.roll_with_two_dice()
+                        else:
+                            i.roll_with_one_die()
+                    print('Turn total of ' + i.name + ': ' + str(i.turn_total) + '\n')
+                    
+                    if i.turn_total == 21:
+                        i.reached_21()
+                        we_have_a_winner = True
+                    
+                    if i.turn_total > 21:
+                        i.bust()
+                        
+            number_of_stopped_players = 0
+            number_of_busted_players = 0
+            for i in players:
+                if i.stopped:
+                    number_of_stopped_players += 1
+                if i.turn_total > 21:
+                    number_of_busted_players += 1
+            
+            turn_is_over = number_of_stopped_players == len(players) or we_have_a_winner or number_of_busted_players == len(players) - 1 
+            if turn_is_over and not we_have_a_winner:
+                winner_of_the_turn = ''
+                max_turn_total = 0
+                tie = False
+                for player in players:
+                    if player.turn_total < 21 and player.turn_total > max_turn_total:
+                        max_turn_total = player.turn_total
+                        winner_of_the_turn = player
+                    elif player.turn_total == max_turn_total: #ha holtverseny van
+                        tie = True
+                        break
+                if winner_of_the_turn == '' or tie:
+                    if tie:
+                        print("It's a tie. Nobody gets point in this round.")
+                    else:
+                        print('Nobody gets point in this round.')
+                else:
+                    if not tie:
+                        winner_of_the_turn.points += 1
+                        print(winner_of_the_turn.name + ' got closest to 21 thus gets 1 point!')
+                    
+                
+        
+        print('\nEND OF ROUND ' + str(which_round) + '\n')    
+        
+        
+        winner_of_the_game = ''
+        for player in players:
+            players_points[player.name] = player.points
+            if player.points >= max_points:
+                winner_of_the_game = player
+                somebody_won = True
+        
+        print('Scores at the end of round ' + str(which_round) + ':')
+        for i in players_points.keys():
+            print('    ' + i + ': ' +  str(players_points[i]))
+
+    print('\nEND OF GAME\n')
+    print(winner_of_the_game.name + ' won the game!')
+            
+intro()
+BlackJackDice(set_players(), set_max_points())
