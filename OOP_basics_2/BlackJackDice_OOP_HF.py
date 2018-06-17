@@ -54,63 +54,134 @@ class Player(object):
         self.name = name
         self.turn_total = 0
         self.points = 0
-        self.dice_number = 0
+        self.one_die_only = False
         self.stopped = False
     
     def roll(self):
-        self.dice_number  = random.randrange(1, 6, 1)
-        self.turn_total  += self.dice_number
-        return self.dice_number
-
+        dice_number_rolled  = random.randrange(1, 6, 1)
+        self.turn_total  += dice_number_rolled
+        return dice_number_rolled
+    
+    def roll_with_two_dice(self):
+        roll_1_result = self.roll()
+        roll_2_result = self.roll()
+        print(str(roll_1_result) + '    ' + str(roll_2_result))
+    
+    def roll_with_one_die(self):
+        roll_1_result = self.roll()
+        print(str(roll_1_result))
+    
     def new_round(self):
         self.turn_total = 0
-        self.dice_number = 0
-
+        self.one_die_only = False
+        self.stopped = False
+    
+    def one_die(self):
+        self.one_die_only = True
+    
     def stop(self):
         self.stopped = True
+    
+    def bust(self):
+        self.stop()
+        print(self.name + ' busted.\n')
+    
+    def reached_21(self):
+        print(self.name + ' reached 21 in this round and gets 2 points!\n')
+        self.points += 2
+        self.stop()
         
-
+    
 def BlackJackDice(players, max_points):            
-
+    
     players_points = {}
     
     somebody_won = False
-
+    
     which_round = 0
     
     while not somebody_won: #@@ 1. while ciklus: addig mennek a játék-körök, amíg valamelyik játékos el nem éri a megadott limit-pontszámot (pl. 10 pont)
         which_round += 1
-        somebody_is_over_21 = False
+        turn_is_over = False
         for i in players:
             i.new_round()
         print('\n________________________________________________________________________________\n')
         print('Round ' + str(which_round))
         print('________________________________________________________________________________\n')
         
-        while not somebody_is_over_21: #@@ 2. while ciklus: addig megy egy kör, amíg valaki el nem éri/meg nem haladja a 21-et, vagy amíg mindenki meg nem áll
+        while not turn_is_over: #@@ 2. while ciklus: addig megy egy kör, amíg valaki el nem éri/meg nem haladja a 21-et, vagy amíg mindenki meg nem áll
+            we_have_a_winner = False
             for i in players:
                 if not i.stopped:
-                    print(i.name + ', press Enter to roll!')
-                    EnterPressed = input()
-                    roll_1_result = i.roll()
-                    roll_2_result = i.roll()
-                    print(str(roll_1_result) + '    ' + str(roll_2_result))
-                    print('Turn total of ' + i.name + ': ' + str(i.turn_total))
-                    print('\n')
-                    somebody_is_over_21 = i.turn_total >= 21
-
-        print('\nEND OF ROUND ' + str(which_round) + '\n')    
-
+                    if i.turn_total >= 16:
+                        print(i.name + ', your turn total is now 16 or more.')
+                        print('If you want to continue rolling with two dice type "2".')
+                        print('If you want to stop rolling type "s".')
+                        possible_answers = ['s', '2']
+                        possible_answers_str = '"s" or "2"'
+                        if not i.one_die_only:
+                            print('If you want to continue rolling with one die only type "1".')
+                            possible_answers.append('1')
+                            possible_answers_str = '"s", "1" or "2"'
+                        answer = ""
+                        while answer not in possible_answers:
+                            print('Type your answer (' + possible_answers_str + ') then press Enter!')
+                            answer = input()
+                        if answer == 's':
+                            i.stop()
+                        elif answer == '1':
+                            i.one_die()
+                    if not i.stopped: 
+                        print(i.name + ', press Enter to roll!')
+                        EnterPressed = input()
+                        if not i.one_die_only:
+                            i.roll_with_two_dice()
+                        else:
+                            i.roll_with_one_die()
+                    print('Turn total of ' + i.name + ': ' + str(i.turn_total) + '\n')
+                    
+                    if i.turn_total == 21:
+                        i.reached_21()
+                        we_have_a_winner = True # @@Meg kell majd nézni, hogy ha egy körön belül több játékos is eléri a 21-et, akkor mindketten megkapják-e a 2 pontot!!!
+                    
+                    if i.turn_total > 21:
+                        i.bust()
+                        
+            number_of_stopped_players = 0
+            for i in players:
+                if i.stopped:
+                    number_of_stopped_players += 1
+            
+            turn_is_over = number_of_stopped_players >= len(players) - 1 or we_have_a_winner
+            if turn_is_over and not we_have_a_winner:
+                winner = ''
+                max_turn_total = 0
+                tie = False
+                for player in players:
+                    if player.turn_total < 21 and player.turn_total > max_turn_total:
+                        max_turn_total = player.turn_total
+                        winner = player
+                    elif player.turn_total == max_turn_total: #ha holtverseny van
+                        tie = True
+                        break
+                if not tie:
+                    winner.points += 1
+                    print(winner.name + ' got closest to 21 thus gets 1 points!')
+                    
+                
         
-        for i in players:
-            players_points[i.name] = i.points
-            if i.points >= max_points:
+        print('\nEND OF ROUND ' + str(which_round) + '\n')    
+        
+        
+        for player in players:
+            players_points[player.name] = player.points
+            if player.points >= max_points:
                 somebody_won = True
-
+        
         print('Scores at the end of round ' + str(which_round) + ':')
         for i in players_points.keys():
             print('    ' + i + ': ' +  str(players_points[i]))
-    
+        
 print("""
 ________________________________________________________________________________
 
